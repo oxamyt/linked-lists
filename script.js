@@ -2,7 +2,6 @@ class Node {
   constructor(value) {
     this.value = value;
     this.next = null;
-    this.tail = null;
   }
 }
 
@@ -12,7 +11,7 @@ class LinkedList {
     this.length = 0;
   }
 
-  headFunc() {
+  tailFunc() {
     if (!this.head) {
       console.log("Empty List");
       return;
@@ -21,30 +20,26 @@ class LinkedList {
       while (cur.next) {
         cur = cur.next;
       }
-      console.log(`First node:${cur.value}`);
+      console.log(`Last node:${cur.value}`);
     }
   }
 
-  tailFunc() {
+  headFunc() {
     if (!this.head) {
       console.log("Empty List");
       return;
     } else {
       let cur = this.head;
-      while (cur.tail) {
-        cur = cur.tail;
-      }
-      console.log(`Last node:${cur.value}`);
+      console.log(`First node:${cur.value}`);
     }
   }
 
-  atIndex(i) {
+  get(i) {
     if (!this.head) {
       console.log("Empty List");
       return;
     }
     let cur = this.head;
-    // let index = i++;
     let j = 0;
     while (j <= i) {
       if (j === i) {
@@ -55,13 +50,71 @@ class LinkedList {
     }
   }
 
+  pop() {
+    if (!this.head) {
+      console.log("Empty List");
+      return;
+    } else {
+      let cur = this.head;
+      let previous = null;
+      while (cur.next) {
+        previous = cur;
+        cur = cur.next;
+      }
+      previous.next = null;
+      this.length--;
+    }
+  }
+
+  contains(valueFrom) {
+    if (!this.head) {
+      console.log("Empty list");
+      return;
+    } else {
+      let cur = this.head;
+      while (cur.next) {
+        if (cur.value === valueFrom) {
+          console.log(`Value of ${valueFrom}: True`);
+          return;
+        }
+        cur = cur.next;
+      }
+      console.log(`Contains value of ${valueFrom}: False`);
+    }
+  }
+
+  find(valueFrom) {
+    if (!this.head) {
+      console.log("Empty List");
+      return;
+    }
+    let cur = this.head;
+    let i = 0;
+    while (cur) {
+      if (cur.value === valueFrom) {
+        console.log(`Index of ${valueFrom} is ${i}`);
+        return;
+      }
+      i++;
+      cur = cur.next;
+    }
+  }
+
   printSize() {
     let cur = this.head;
     while (cur) {
       console.log(cur.value);
       cur = cur.next;
     }
+    console.log(null);
     console.log(`Size of nodes:${this.length}`);
+  }
+
+  printString() {
+    let cur = this.head;
+    while (cur) {
+      console.log(cur.value);
+    }
   }
 
   append(value) {
@@ -75,8 +128,6 @@ class LinkedList {
     while (cur.next !== null) {
       cur = cur.next;
     }
-
-    newNode.tail = cur;
     cur.next = newNode;
     this.length++;
   }
@@ -92,7 +143,6 @@ class LinkedList {
       this.head = newNode;
     }
     this.length++;
-    return this;
   }
 }
 
@@ -100,13 +150,12 @@ const list = new LinkedList();
 list.append("1");
 list.append("2");
 list.append("3");
-list.append("4");
-list.append("5");
-list.append("6");
-list.append("7");
-list.append("8");
-list.append("9");
+list.prepend("4");
+list.append("55");
+list.pop();
+list.printSize();
 list.headFunc();
 list.tailFunc();
-list.printSize();
-list.atIndex(0);
+list.find("3");
+list.contains("2");
+list.get(0);
