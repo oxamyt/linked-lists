@@ -1,3 +1,4 @@
+// Creating Node Class
 class Node {
   constructor(value) {
     this.value = value;
@@ -5,13 +6,15 @@ class Node {
   }
 }
 
+// Creating List Class
 class LinkedList {
   constructor() {
     this.head = null;
     this.length = 0;
   }
 
-  tailFunc() {
+  // Get last node method
+  getTail() {
     if (!this.head) {
       console.log("Empty List");
       return;
@@ -24,7 +27,8 @@ class LinkedList {
     }
   }
 
-  headFunc() {
+  // Get first node method
+  getHead() {
     if (!this.head) {
       console.log("Empty List");
       return;
@@ -34,7 +38,8 @@ class LinkedList {
     }
   }
 
-  get(i) {
+  // Get value at index method
+  getValueAt(i) {
     if (!this.head) {
       console.log("Empty List");
       return;
@@ -50,6 +55,7 @@ class LinkedList {
     }
   }
 
+  // Remove last node method
   pop() {
     if (!this.head) {
       console.log("Empty List");
@@ -66,7 +72,8 @@ class LinkedList {
     }
   }
 
-  contains(valueFrom) {
+  // Check for value in list method
+  containsValue(valueFrom) {
     if (!this.head) {
       console.log("Empty list");
       return;
@@ -74,16 +81,16 @@ class LinkedList {
       let cur = this.head;
       while (cur.next) {
         if (cur.value === valueFrom) {
-          console.log(`Value of ${valueFrom}: True`);
-          return;
+          return true;
         }
         cur = cur.next;
       }
-      console.log(`Contains value of ${valueFrom}: False`);
+      return false;
     }
   }
 
-  find(valueFrom) {
+  // Find index of value method
+  findIndex(valueFrom) {
     if (!this.head) {
       console.log("Empty List");
       return;
@@ -100,24 +107,64 @@ class LinkedList {
     }
   }
 
-  printSize() {
+  // Print Linked List data in array method
+  print() {
     let cur = this.head;
+    let array = [];
     while (cur) {
-      console.log(cur.value);
+      array.push(cur.value);
       cur = cur.next;
     }
-    console.log(null);
+    console.log(array);
     console.log(`Size of nodes:${this.length}`);
   }
 
-  printString() {
-    let cur = this.head;
-    while (cur) {
-      console.log(cur.value);
+  // Insert node at index method
+  insertAt(value, index) {
+    const newNode = new Node(value);
+    if (this.head === null) {
+      newNode.next = this.head;
+      this.head = newNode;
+      this.length++;
+      return;
+    } else if (index === 0) {
+      this.head = newNode;
+      this.length++;
+      return;
     }
+    let cur = this.head;
+    let previous = null;
+    let i = 0;
+
+    while (cur && i < index) {
+      previous = cur;
+      cur = cur.next;
+      i++;
+    }
+    newNode.next = cur;
+    previous.next = newNode;
+    this.length++;
   }
 
-  append(value) {
+  // Remove node at index method
+  removeAt(index) {
+    if (this.head === null) {
+      console.log("Empty list, nothing to delete");
+      return;
+    }
+    let cur = this.head;
+    let previous = null;
+    let i = 0;
+    while (cur && i < index) {
+      previous = cur;
+      cur = cur.next;
+      i++;
+    }
+    previous.next = cur.next;
+  }
+
+  // Add node in the end of list method
+  appendValue(value) {
     const newNode = new Node(value);
     if (this.head === null) {
       this.head = newNode;
@@ -132,7 +179,8 @@ class LinkedList {
     this.length++;
   }
 
-  prepend(value) {
+  // Add node in the beginning of the list method
+  prependValue(value) {
     const newNode = new Node(value);
     if (!this.head) {
       this.head = newNode;
@@ -146,16 +194,5 @@ class LinkedList {
   }
 }
 
+// Create list
 const list = new LinkedList();
-list.append("1");
-list.append("2");
-list.append("3");
-list.prepend("4");
-list.append("55");
-list.pop();
-list.printSize();
-list.headFunc();
-list.tailFunc();
-list.find("3");
-list.contains("2");
-list.get(0);
